@@ -1,10 +1,6 @@
 package com.brutallyhonestmirror.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +21,10 @@ public class Entry {
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String rawText;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
