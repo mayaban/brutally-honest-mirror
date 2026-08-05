@@ -1,5 +1,7 @@
 package com.brutallyhonestmirror.backend.controller;
 
+import com.brutallyhonestmirror.backend.dto.LoginRequest;
+import com.brutallyhonestmirror.backend.dto.LoginResponse;
 import com.brutallyhonestmirror.backend.dto.RegisterRequest;
 import com.brutallyhonestmirror.backend.dto.RegisterResponse;
 import com.brutallyhonestmirror.backend.service.AuthService;
@@ -23,6 +25,17 @@ public class AuthController {
         String token = service.register(request);
         return new RegisterResponse(
                 "Welcome, " + request.getEmail() + "! Your account has been created.",
+                request.getEmail(),
+                token
+        );
+    }
+
+
+    @PostMapping("/login")
+    public LoginResponse login(@RequestBody LoginRequest request){
+        String token = service.login(request);
+        return new LoginResponse(
+                "Welcome back, " + request.getEmail() + "!",
                 request.getEmail(),
                 token
         );

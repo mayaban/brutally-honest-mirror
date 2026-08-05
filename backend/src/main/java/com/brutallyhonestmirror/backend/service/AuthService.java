@@ -1,8 +1,10 @@
 package com.brutallyhonestmirror.backend.service;
 
 import com.brutallyhonestmirror.backend.config.JwtUtil;
+import com.brutallyhonestmirror.backend.dto.LoginRequest;
 import com.brutallyhonestmirror.backend.dto.RegisterRequest;
 import com.brutallyhonestmirror.backend.exception.EmailAlreadyExistsException;
+import com.brutallyhonestmirror.backend.exception.InvalidCredentialsException;
 import com.brutallyhonestmirror.backend.model.User;
 import com.brutallyhonestmirror.backend.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,5 +36,16 @@ public class AuthService {
         userRepository.save(user);
 
         return jwtUtil.generateToken(request.getEmail());
+    }
+
+    public String login(LoginRequest request){
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid Email or Password"));
+
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())){
+            throw new InvalidCredentialsException("Invalid Email or Password");
+        }
+
+        return jwtUtil.generateToken(user.getEmail());
     }
 }
