@@ -1,13 +1,13 @@
 package com.brutallyhonestmirror.backend.controller;
 
 import com.brutallyhonestmirror.backend.dto.CreateEntryRequest;
+import com.brutallyhonestmirror.backend.dto.HistoryItemResponse;
 import com.brutallyhonestmirror.backend.dto.ReflectionResponse;
 import com.brutallyhonestmirror.backend.model.Reflection;
 import com.brutallyhonestmirror.backend.service.MirrorService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/entries")
@@ -33,4 +33,10 @@ public class MirrorController {
         );
 
     }
+
+    @GetMapping
+    public List<HistoryItemResponse>  getHistory(){
+        return  mirrorService.getHistory();
+    }
+
 }

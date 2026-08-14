@@ -1,10 +1,14 @@
 package com.brutallyhonestmirror.backend.service;
 
+import com.brutallyhonestmirror.backend.dto.HistoryItemResponse;
+import com.brutallyhonestmirror.backend.dto.ReflectionResponse;
 import com.brutallyhonestmirror.backend.model.Entry;
 import com.brutallyhonestmirror.backend.model.Reflection;
+import com.brutallyhonestmirror.backend.model.User;
 import com.brutallyhonestmirror.backend.repository.EntryRepository;
 import com.brutallyhonestmirror.backend.repository.ReflectionRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.anthropic.client.AnthropicClient;
@@ -12,6 +16,9 @@ import com.anthropic.client.okhttp.AnthropicOkHttpClient;
 import com.anthropic.models.messages.Message;
 import com.anthropic.models.messages.MessageCreateParams;
 import com.anthropic.models.messages.Model;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MirrorService {
@@ -55,9 +62,11 @@ public class MirrorService {
     }
     @Transactional
     public Reflection createReflection(String rawText){
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Entry entry = new Entry();
         entry.setRawText(rawText);
+        entry.setUser(currentUser);
         entry = entryRepository.save(entry);
         
         String aiResponse = callClaude(rawText);
@@ -91,6 +100,27 @@ public class MirrorService {
         } catch (Exception e) {
             return "The mirror's a bit foggy right now — try again in a moment.";
         }
+    }
+
+
+    public List<HistoryItemResponse> getHistory(){
+
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Reflection> reflectionList =  reflectionRepository.findByEntry_User_IdOrderByCreatedAtDesc(currentUser.getId());
+
+        List<HistoryItemResponse> historyItemResponseList = new ArrayList<>();
+           for (Reflection reflection : reflectionList){
+               HistoryItemResponse historyItemResponse = new HistoryItemResponse(
+                       reflection.getId(),
+                       reflection.getEntry().getRawText(),
+                       reflection.getAiResponse(),
+                       reflection.getCreatedAt());
+
+               historyItemResponseList.add(historyItemResponse);
+           }
+
+           return historyItemResponseList;
+
     }
 
 
