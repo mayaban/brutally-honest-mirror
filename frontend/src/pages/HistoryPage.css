@@ -1,0 +1,32 @@
+.history-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.history-page-nav {
+  margin-bottom: 24px;
+}
+
+.history-page-nav a {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.history-page-nav a:hover {
+  text-decoration: underline;
+}
+
+.history-page-title {
+  margin: 0 0 24px;
+}
+
+.history-page-loading,
+.history-page-error {
+  text-align: center;
+  color: var(--text-dim);
+}
+
+.history-page-error {
+  color: var(--error);
+}

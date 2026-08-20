@@ -1,0 +1,41 @@
+.mirror-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.mirror-page-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.mirror-page-nav a {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.mirror-page-nav a:hover {
+  text-decoration: underline;
+}
+
+.mirror-page-logout {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.mirror-page-logout:hover {
+  border-color: var(--accent);
+  color: var(--text-heading);
+}
+
+.mirror-page-error {
+  color: var(--error);
+  text-align: center;
+}

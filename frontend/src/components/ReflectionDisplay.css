@@ -1,0 +1,20 @@
+.reflection-display {
+  margin-top: 24px;
+  padding: 24px;
+  background: var(--bg-elevated);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--text-heading);
+}
+
+.reflection-display p {
+  margin: 0;
+}
+
+.reflection-display em {
+  color: var(--accent);
+  font-style: italic;
+}
